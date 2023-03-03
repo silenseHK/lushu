@@ -256,16 +256,28 @@ function getExtendArray()
     return $data;
 }
 
+// 检测php版本号
 function getPHPVersion()
 {
-    // 检测php版本号
     $version = phpversion();
-    if (version_compare($version, '7.4', '<') || version_compare($version, '7.4', '>')) {
+    $versionInt = versionToInteger(phpversion());
+    if ($versionInt < 70400 || $versionInt >= 70500) {
         echo "<span class=\"col-red\"><strong>{$version}</strong> (请使用php7.4)</span>";
         setIsNext(false);
     } else {
         echo "<span>{$version}</span>";
     }
+}
+
+/**
+ * 将版本转为数字
+ * @param string $version
+ * @return int
+ */
+function versionToInteger(string $version): int
+{
+    list($major, $minor, $sub) = explode('.', $version);
+    return intval($major * 10000 + $minor * 100 + $sub);
 }
 
 // 获取检测的路径数据
