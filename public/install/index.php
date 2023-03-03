@@ -26,7 +26,7 @@ define('INSTALL_PATH', str_replace('\\', '/', dirname(__FILE__)));
 define('ROOT_PATH', dirname(INSTALL_PATH, 2));
 
 // 版权信息设置
-$cfg_copyright = '© 2018-2022 YIOVO.COM';
+$cfg_copyright = '© 2018-2023 YIOVO.COM';
 
 // 获取当前步骤
 $s = getStep();
@@ -254,6 +254,18 @@ function getExtendArray()
         !$item['status'] && setIsNext(false);
     }
     return $data;
+}
+
+function getPHPVersion()
+{
+    // 检测php版本号
+    $version = phpversion();
+    if (version_compare($version, '7.4', '<') || version_compare($version, '7.4', '>')) {
+        echo "<span class=\"col-red\"><strong>{$version}</strong> (请使用php7.4)</span>";
+        setIsNext(false);
+    } else {
+        echo "<span>{$version}</span>";
+    }
 }
 
 // 获取检测的路径数据
