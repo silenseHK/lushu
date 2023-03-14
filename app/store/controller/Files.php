@@ -96,8 +96,8 @@ class Files extends Controller
      */
     private function env()
     {
-        // 判断当前版本小于2.2.7则不执行
-        if (Version::compare(Version::getVersion(), '2.2.7') === -1) {
+        // 判断当前版本小于2.0.7则不执行
+        if (Version::compare(Version::getVersion(), '2.0.7') === -1) {
             return;
         }
         // 要删除的文件列表
