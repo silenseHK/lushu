@@ -27,14 +27,14 @@ class FileValidate extends \think\Validate
 
         // 视频文件: mp4
         // 文件大小: 20MB = (1024 * 1024 * 20) = 20971520 字节
-        'video' => 'filesize:10485760|fileExt:mp4',
+        'video' => 'filesize:20971520|fileExt:mp4',
     ];
 
     // 错误提示信息
     protected $message = [
         'image.filesize' => '图片文件大小不能超出2MB',
         'image.fileExt' => '图片文件扩展名有误',
-        'video.filesize' => '视频文件大小不能超出10MB',
+        'video.filesize' => '视频文件大小不能超出20MB',
         'video.fileExt' => '视频文件扩展名有误',
     ];
 
