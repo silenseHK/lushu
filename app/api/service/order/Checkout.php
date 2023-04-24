@@ -51,7 +51,7 @@ class Checkout extends BaseService
     private $user;
 
     // 订单结算商品列表
-    private $goodsList = [];
+    private $goodsList;
 
     /**
      * 订单结算api参数

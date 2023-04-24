@@ -26,12 +26,17 @@ use app\common\service\BaseService;
  */
 class Express extends BaseService
 {
-    private $cityId;     // 用户收货城市id
-    private $goodsList;  // 订单商品列表
-    private $notInRuleGoodsId;  // 不在配送范围的商品ID
+    // 用户收货城市id
+    private int $cityId;
+
+    // 订单商品列表
+    private iterable $goodsList;
+
+    // 不在配送范围的商品ID
+    private ?int $notInRuleGoodsId = null;
 
     // 运费模板数据集
-    private $data = [];
+    private array $data = [];
 
     /**
      * 构造方法

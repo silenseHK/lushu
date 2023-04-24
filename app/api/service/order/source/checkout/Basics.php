@@ -26,15 +26,15 @@ abstract class Basics extends BaseService
     protected $user;
 
     // 订单结算商品列表
-    protected $goodsList = [];
+    protected iterable $goodsList = [];
 
     /**
      * 构造方法
      * Checkout constructor.
      * @param UserModel $user
-     * @param array $goodsList
+     * @param iterable $goodsList
      */
-    public function __construct($user, $goodsList)
+    public function __construct($user, iterable $goodsList)
     {
         parent::__construct();
         $this->user = $user;

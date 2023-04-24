@@ -28,8 +28,7 @@ use think\response\Json;
 class Checkout extends Controller
 {
     // 结算台验证器
-    /* @var CheckoutValidate $validate */
-    private $validate;
+    private ?CheckoutValidate $validate = null;
 
     /**
      * 结算台订单信息
@@ -175,7 +174,7 @@ class Checkout extends Controller
      */
     private function getValidate(): CheckoutValidate
     {
-        if (!$this->validate) {
+        if (is_null($this->validate)) {
             $this->validate = new CheckoutValidate;
         }
         return $this->validate;
