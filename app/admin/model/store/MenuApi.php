@@ -38,12 +38,11 @@ class MenuApi extends MenuApiModel
     /**
      * 根据菜单id批量删除记录
      * @param int $menuId
-     * @return bool
-     * @throws \Exception
+     * @return void
      */
-    private function removeByMenuId(int $menuId)
+    private function removeByMenuId(int $menuId): void
     {
-        return $this->where('menu_id', '=', $menuId)->delete();
+        static::deleteAll(['menu_id' => $menuId]);
     }
 
     /**

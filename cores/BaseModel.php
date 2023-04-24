@@ -213,7 +213,7 @@ abstract class BaseModel extends Model
      *           ['store_user_id', '=', $storeUserId],
      *           ['role_id', 'in', $deleteRoleIds]
      *        ]
-     * @return bool|int
+     * @return bool|int 这里实际返回的是数量int
      */
     public static function deleteAll(array $where)
     {
