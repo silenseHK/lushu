@@ -23,12 +23,11 @@ class GradeLog extends GradeLogModel
 {
     /**
      * 新增变更记录
-     * @param $data
-     * @return int
+     * @param array $data
+     * @return bool
      */
-    public function record($data)
+    public function record(array $data): bool
     {
         return $this->records([$data]);
     }
-
 }

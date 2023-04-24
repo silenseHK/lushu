@@ -33,9 +33,9 @@ class GradeLog extends BaseModel
     /**
      * 新增变更记录 (批量)
      * @param $data
-     * @return int
+     * @return bool
      */
-    public function records($data)
+    public function records($data): bool
     {
         $saveData = [];
         foreach ($data as $item) {
