@@ -6,6 +6,6 @@ return [
     // 指令定义
     'commands' => [
         // 定时任务
-        'timer' => \app\console\command\Timer::class,
+        'timer' => \app\timer\command\Timer::class,
     ],
 ];

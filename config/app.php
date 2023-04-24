@@ -28,7 +28,7 @@ return [
     // 禁止URL访问的应用列表（自动多应用模式有效）
     'deny_app_list'    => [
         'common',
-        'console'
+        'timer'
     ],
 
     // 异常页面的模板文件
