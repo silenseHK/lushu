@@ -111,31 +111,7 @@ class Setting extends BaseModel
     {
         // 获取所有设置项
         $data = $this->where('store_id', '=', $storeId)->select();
-        $setting = $data->isEmpty() ? [] : helper::arrayColumn2Key($data->toArray(), 'key');
-        // 兼容旧数据
-        return static::compatibleOld($setting, $storeId);
-    }
-
-    /**
-     * 兼容老版本数据 (v2.0.4之前)
-     * @param array $newSetting
-     * @param int|null $storeId
-     * @return array
-     */
-    private static function compatibleOld(array $newSetting, ?int $storeId = null): array
-    {
-        if (empty($newSetting) || !isset($newSetting['basic'])) {
-            $basic = WxappModel::getOldData($storeId);
-            $newSetting['basic']['values'] = $basic;
-            (new static)->save([
-                'key' => 'basic',
-                'describe' => '基础设置',
-                'values' => $basic,
-                'store_id' => $storeId,
-                'update_time' => time(),
-            ]);
-        }
-        return $newSetting;
+        return $data->isEmpty() ? [] : helper::arrayColumn2Key($data->toArray(), 'key');
     }
 
     /**
