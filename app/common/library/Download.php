@@ -12,8 +12,13 @@ declare (strict_types=1);
 
 namespace app\common\library;
 
-use app\common\exception\BaseException;
+use cores\exception\BaseException;
 
+/**
+ * 文件下载类
+ * Class Download
+ * @package app\common\library
+ */
 class Download
 {
     /**
@@ -22,7 +27,7 @@ class Download
      * @param string $url
      * @param string $prefix
      * @return string
-     * @throws \cores\exception\BaseException
+     * @throws BaseException
      */
     public function saveTempImage(int $storeId, string $url, string $prefix = 'temp'): string
     {
@@ -72,7 +77,7 @@ class Download
     private function getSavePath(int $storeId, string $prefix, string $url): string
     {
         $dirPath = $this->getDirPath($storeId);
-        return $dirPath . '/' . $prefix . '_' . md5($url) . '.png';
+        return "{$dirPath}/{$prefix}_" . md5($url) . ".png";
     }
 
     /**

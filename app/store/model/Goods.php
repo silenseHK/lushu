@@ -21,7 +21,7 @@ use app\store\model\GoodsSpecRel as GoodsSpecRelModel;
 use app\store\model\goods\ServiceRel as GoodsServiceRelModel;
 use app\store\model\GoodsCategoryRel as GoodsCategoryRelModel;
 use app\store\service\Goods as GoodsService;
-use app\common\enum\goods\SpecType as SpecTypeEnum;
+use app\common\enum\goods\SpecType as GoodsSpecTypeEnum;
 use app\common\enum\goods\Status as GoodsStatusEnum;
 use cores\exception\BaseException;
 
@@ -48,7 +48,7 @@ class Goods extends GoodsModel
         // 分类ID集
         $goodsInfo['categoryIds'] = GoodsCategoryRelModel::getCategoryIds($goodsInfo['goods_id']);
         // 商品多规格属性列表
-        if ($goodsInfo['spec_type'] == SpecTypeEnum::MULTI) {
+        if ($goodsInfo['spec_type'] == GoodsSpecTypeEnum::MULTI) {
             $goodsInfo['specList'] = GoodsSpecRelModel::getSpecList($goodsInfo['goods_id']);
         }
         // 服务与承诺
@@ -208,24 +208,24 @@ class Goods extends GoodsModel
         ]);
         // 库存总量 stock_total
         // 商品价格 最低最高
-        if ($data['spec_type'] == SpecTypeEnum::MULTI) {
+        if ($data['spec_type'] == GoodsSpecTypeEnum::MULTI) {
             $data['stock_total'] = GoodsSkuModel::getStockTotal($data['specData']['skuList']);
             [$data['goods_price_min'], $data['goods_price_max']] = GoodsSkuModel::getGoodsPrices($data['specData']['skuList']);
             [$data['line_price_min'], $data['line_price_max']] = GoodsSkuModel::getLinePrices($data['specData']['skuList']);
-        } elseif ($data['spec_type'] == SpecTypeEnum::SINGLE) {
+        } elseif ($data['spec_type'] == GoodsSpecTypeEnum::SINGLE) {
             $data['goods_price_min'] = $data['goods_price_max'] = $data['goods_price'];
             $data['line_price_min'] = $data['line_price_max'] = $data['line_price'];
             $data['stock_total'] = $data['stock_num'];
         }
         // 规格和sku数据处理
-        if ($data['spec_type'] == SpecTypeEnum::MULTI) {
+        if ($data['spec_type'] == GoodsSpecTypeEnum::MULTI) {
             // 验证规格值是否合法
             SpecModel::checkSpecData($data['specData']['specList']);
             // 生成多规格数据 (携带id)
             $data['newSpecList'] = SpecModel::getNewSpecList($data['specData']['specList']);
             // 生成skuList (携带goods_sku_id)
             $data['newSkuList'] = GoodsSkuModel::getNewSkuList($data['newSpecList'], $data['specData']['skuList']);
-        } elseif ($data['spec_type'] == SpecTypeEnum::SINGLE) {
+        } elseif ($data['spec_type'] == GoodsSpecTypeEnum::SINGLE) {
             // 生成skuItem
             $data['newSkuList'] = helper::pick($data, ['goods_price', 'line_price', 'stock_num', 'goods_weight']);
         }

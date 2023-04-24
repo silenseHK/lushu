@@ -12,12 +12,9 @@ declare (strict_types=1);
 
 namespace app\store\controller;
 
-use app\store\model\Setting as SettingModel;
-use app\store\model\UploadFile as UploadFileModel;
-use app\common\enum\Setting as SettingEnum;
-use app\common\enum\file\FileType as FileTypeEnum;
-use app\common\library\storage\Driver as StorageDriver;
 use think\response\Json;
+use app\store\service\Upload as UploadService;
+use app\common\enum\file\FileType as FileTypeEnum;
 
 /**
  * 文件库管理
@@ -26,74 +23,43 @@ use think\response\Json;
  */
 class Upload extends Controller
 {
-    // 当前商城的上传设置
-    private $config;
-
     /**
-     * 构造方法
-     * @throws \app\common\exception\BaseException
+     * 图片上传接口
+     * @param int $groupId 文件库分组ID
+     * @return Json
+     * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function initialize()
-    {
-        parent::initialize();
-        // 存储配置信息
-        $this->config = SettingModel::getItem(SettingEnum::STORAGE);
-    }
-
-    /**
-     * 图片上传接口
-     * @param int $groupId 分组ID
-     * @return Json
-     * @throws \think\Exception
-     */
     public function image(int $groupId = 0): Json
     {
-        // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
-        // 设置上传文件的信息
-        $storage->setUploadFile('iFile')
-            ->setRootDirName((string)$this->storeId)
-            ->setValidationScene('image');
         // 执行文件上传
-        if (!$storage->upload()) {
-            return $this->renderError('图片上传失败：' . $storage->getError());
+        $service = new UploadService();
+        if (!$service->upload(FileTypeEnum::IMAGE, $groupId)) {
+            return $this->renderError('文件上传失败：' . $service->getError());
         }
-        // 文件信息
-        $fileInfo = $storage->getSaveFileInfo();
-        // 添加文件库记录
-        $model = new UploadFileModel;
-        $model->add($fileInfo, FileTypeEnum::IMAGE, $groupId);
         // 图片上传成功
-        return $this->renderSuccess(['fileInfo' => $model->toArray()], '图片上传成功');
+        return $this->renderSuccess(['fileInfo' => $service->getFileInfo()], '文件上传成功');
     }
 
     /**
      * 视频上传接口
-     * @param int $groupId 分组ID
+     * @param int $groupId 文件库分组ID
      * @return Json
      * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public function video(int $groupId = 0): Json
     {
-        // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
-        // 设置上传文件的信息
-        $storage->setUploadFile('iFile')
-            ->setRootDirName((string)$this->storeId)
-            ->setValidationScene('video');
         // 执行文件上传
-        if (!$storage->upload()) {
-            return $this->renderError('视频上传失败：' . $storage->getError());
+        $service = new UploadService();
+        if (!$service->upload(FileTypeEnum::VIDEO, $groupId)) {
+            return $this->renderError('文件上传失败：' . $service->getError());
         }
-        // 文件信息
-        $fileInfo = $storage->getSaveFileInfo();
-        // 添加文件库记录
-        $model = new UploadFileModel;
-        $model->add($fileInfo, FileTypeEnum::VIDEO, $groupId);
         // 图片上传成功
-        return $this->renderSuccess(['fileInfo' => $model->toArray()], '视频上传成功');
+        return $this->renderSuccess(['fileInfo' => $service->getFileInfo()], '文件上传成功');
     }
 }
