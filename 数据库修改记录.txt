@@ -1,4 +1,51 @@
-﻿# v2.0.7
+﻿
+# v2.0.8
+# 修改时间：2023-04-24
+UPDATE `yoshop_region` SET `code`='110100' WHERE (`id`='2');
+UPDATE `yoshop_region` SET `code`='120100' WHERE (`id`='20');
+UPDATE `yoshop_region` SET `code`='310100' WHERE (`id`='783');
+UPDATE `yoshop_region` SET `code`='500100' WHERE (`id`='2224');
+
+INSERT INTO `yoshop_region` VALUES ('3705', '省直辖县级行政区划', '1495', '419000', '2');
+INSERT INTO `yoshop_region` VALUES ('3706', '济源市', '1495', '419001', '3');
+INSERT INTO `yoshop_region` VALUES ('3707', '省直辖县级行政区划', '1671', '429000', '2');
+INSERT INTO `yoshop_region` VALUES ('3708', '济源市', '3707', '419001', '3');
+INSERT INTO `yoshop_region` VALUES ('3709', '仙桃市', '3707', '429004', '3');
+INSERT INTO `yoshop_region` VALUES ('3710', '潜江市', '3707', '429005', '3');
+INSERT INTO `yoshop_region` VALUES ('3711', '天门市', '3707', '429006', '3');
+INSERT INTO `yoshop_region` VALUES ('3712', '神农架林区', '3707', '429021', '3');
+INSERT INTO `yoshop_region` VALUES ('3713', '省直辖县级行政区划', '2195', '469000', '2');
+INSERT INTO `yoshop_region` VALUES ('3714', '五指山市', '2195', '469001', '3');
+INSERT INTO `yoshop_region` VALUES ('3715', '琼海市', '2195', '469002', '3');
+INSERT INTO `yoshop_region` VALUES ('3716', '文昌市', '2195', '469005', '3');
+INSERT INTO `yoshop_region` VALUES ('3717', '万宁市', '2195', '469006', '3');
+INSERT INTO `yoshop_region` VALUES ('3718', '东方市', '2195', '469007', '3');
+INSERT INTO `yoshop_region` VALUES ('3719', '定安县', '2195', '469021', '3');
+INSERT INTO `yoshop_region` VALUES ('3720', '屯昌县', '2195', '469022', '3');
+INSERT INTO `yoshop_region` VALUES ('3721', '澄迈县', '2195', '469023', '3');
+INSERT INTO `yoshop_region` VALUES ('3722', '临高县', '2195', '469024', '3');
+INSERT INTO `yoshop_region` VALUES ('3723', '白沙黎族自治县', '2195', '469025', '3');
+INSERT INTO `yoshop_region` VALUES ('3724', '昌江黎族自治县', '2195', '469026', '3');
+INSERT INTO `yoshop_region` VALUES ('3725', '乐东黎族自治县', '2195', '469027', '3');
+INSERT INTO `yoshop_region` VALUES ('3726', '陵水黎族自治县', '2195', '469028', '3');
+INSERT INTO `yoshop_region` VALUES ('3727', '保亭黎族苗族自治县', '2195', '469029', '3');
+INSERT INTO `yoshop_region` VALUES ('3728', '琼中黎族苗族自治县', '2195', '469030', '3');
+INSERT INTO `yoshop_region` VALUES ('3729', '自治区直辖县级行政区划', '3094', '659000', '2');
+INSERT INTO `yoshop_region` VALUES ('3730', '石河子市', '3729', '659001', '3');
+INSERT INTO `yoshop_region` VALUES ('3731', '阿拉尔市', '3729', '659002', '3');
+INSERT INTO `yoshop_region` VALUES ('3732', '图木舒克市', '3729', '659003', '3');
+INSERT INTO `yoshop_region` VALUES ('3733', '五家渠市', '3729', '659004', '3');
+INSERT INTO `yoshop_region` VALUES ('3734', '北屯市', '3729', '659005', '3');
+INSERT INTO `yoshop_region` VALUES ('3735', '铁门关市', '3729', '659006', '3');
+INSERT INTO `yoshop_region` VALUES ('3736', '双河市', '3729', '659007', '3');
+INSERT INTO `yoshop_region` VALUES ('3737', '可克达拉市', '3729', '659008', '3');
+INSERT INTO `yoshop_region` VALUES ('3738', '昆玉市', '3729', '659009', '3');
+INSERT INTO `yoshop_region` VALUES ('3739', '胡杨河市', '3729', '659010', '3');
+INSERT INTO `yoshop_region` VALUES ('3740', '新星市', '3729', '659011', '3');
+
+
+
+# v2.0.7
 # 修改时间：2023-02-20
 UPDATE `yoshop_region` SET `name`='北京市' WHERE (`id`='1');
 UPDATE `yoshop_region` SET `name`='天津市' WHERE (`id`='19');
