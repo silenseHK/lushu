@@ -12,6 +12,7 @@ declare (strict_types=1);
 
 namespace app\store\controller;
 
+use think\response\Json;
 use app\store\model\Page as PageModel;
 
 /**
@@ -23,12 +24,12 @@ class Page extends Controller
 {
     /**
      * 页面列表
-     * @return array
+     * @return Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function list()
+    public function list(): Json
     {
         $model = new PageModel;
         $list = $model->getList($this->request->param());
@@ -37,9 +38,9 @@ class Page extends Controller
 
     /**
      * 页面设计默认数据
-     * @return array
+     * @return Json
      */
-    public function defaultData()
+    public function defaultData(): Json
     {
         $model = new PageModel;
         return $this->renderSuccess([
@@ -51,9 +52,9 @@ class Page extends Controller
     /**
      * 页面详情
      * @param int $pageId
-     * @return array
+     * @return Json
      */
-    public function detail(int $pageId)
+    public function detail(int $pageId): Json
     {
         $detail = PageModel::detail($pageId);
         return $this->renderSuccess(compact('detail'));
@@ -61,12 +62,12 @@ class Page extends Controller
 
     /**
      * 新增页面
-     * @return array|mixed
+     * @return Json
      */
-    public function add()
+    public function add(): Json
     {
         $model = new PageModel;
-        if (!$model->add($this->postForm())) {
+        if (!$model->add($this->postForm('form', false))) {
             return $this->renderError($model->getError() ?: '添加失败');
         }
         return $this->renderSuccess('添加成功');
@@ -75,12 +76,12 @@ class Page extends Controller
     /**
      * 编辑页面
      * @param int $pageId
-     * @return array|mixed
+     * @return Json
      */
-    public function edit(int $pageId)
+    public function edit(int $pageId): Json
     {
         $model = PageModel::detail($pageId);
-        if (!$model->edit($this->postForm())) {
+        if (!$model->edit($this->postForm('form', false))) {
             return $this->renderError($model->getError() ?: '更新失败');
         }
         return $this->renderSuccess('更新成功');
@@ -89,9 +90,9 @@ class Page extends Controller
     /**
      * 删除页面
      * @param int $pageId
-     * @return array
+     * @return Json
      */
-    public function delete(int $pageId)
+    public function delete(int $pageId): Json
     {
         // 帮助详情
         $model = PageModel::detail($pageId);
@@ -104,9 +105,9 @@ class Page extends Controller
     /**
      * 设置默认首页
      * @param int $pageId
-     * @return array
+     * @return Json
      */
-    public function setHome(int $pageId)
+    public function setHome(int $pageId): Json
     {
         // 帮助详情
         $model = PageModel::detail($pageId);
@@ -115,5 +116,4 @@ class Page extends Controller
         }
         return $this->renderSuccess('设置成功');
     }
-
 }
