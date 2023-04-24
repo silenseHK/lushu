@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types=1);
 
-namespace app\timer\task;
+namespace app\timer\controller;
 
 use app\timer\service\Order as OrderService;
 use app\timer\model\Setting as SettingModel;
@@ -18,7 +18,7 @@ use app\timer\model\Setting as SettingModel;
 /**
  * 定时任务：商城订单
  * Class Order
- * @package app\timer\task
+ * @package app\timer\controller
  */
 class Order extends Task
 {

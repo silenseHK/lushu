@@ -10,19 +10,19 @@
 // +----------------------------------------------------------------------
 declare (strict_types=1);
 
-namespace app\timer\task;
+namespace app\timer\controller;
 
-use app\timer\service\UserCoupon as UserCouponService;
+use app\timer\service\UserGrade as UserGradeService;
 
 /**
- * 定时任务：设置优惠券过期状态
- * Class UserCoupon
- * @package app\timer\task
+ * 定时任务：会员等级
+ * Class UserGrade
+ * @package app\timer\controller
  */
-class UserCoupon extends Task
+class UserGrade extends Task
 {
     // 当前任务唯一标识
-    private $taskKey = 'UserCoupon';
+    private $taskKey = 'UserGrade';
 
     // 任务执行间隔时长 (单位:秒)
     protected $taskExpire = 60 * 30;
@@ -33,24 +33,30 @@ class UserCoupon extends Task
     /**
      * 任务处理
      * @param array $param
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public function handle(array $param)
     {
         ['storeId' => $this->storeId] = $param;
         $this->setInterval($this->storeId, $this->taskKey, $this->taskExpire, function () {
-            // echo $this->taskKey . PHP_EOL;
-            // 设置优惠券过期状态
-            $this->setExpired();
+            echo $this->taskKey . PHP_EOL;
+            // 设置用户的会员等级
+            $this->setUserGrade();
         });
     }
 
     /**
-     * 设置优惠券过期状态
+     * 设置用户的会员等级
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
-    private function setExpired()
+    private function setUserGrade()
     {
-        $service = new UserCouponService;
-        $service->setExpired($this->storeId);
+        $service = new UserGradeService;
+        $service->setUserGrade($this->storeId);
     }
 
 }

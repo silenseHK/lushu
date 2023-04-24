@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 declare (strict_types=1);
 
-namespace app\timer\task;
+namespace app\timer\controller;
 
 use think\facade\Event;
 use app\timer\model\Store as StoreModel;
@@ -18,7 +18,7 @@ use app\timer\model\Store as StoreModel;
 /**
  * 商城定时任务
  * Class StoreTask
- * @package app\timer\task
+ * @package app\timer\controller
  */
 class Store extends Task
 {

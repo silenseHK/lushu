@@ -10,14 +10,14 @@
 // +----------------------------------------------------------------------
 declare (strict_types=1);
 
-namespace app\timer\task;
+namespace app\timer\controller;
 
 use think\facade\Cache;
 
 /**
  * 定时任务监听器
  * Class Listener
- * @package app\timer\task
+ * @package app\timer\controller
  */
 class Task
 {
