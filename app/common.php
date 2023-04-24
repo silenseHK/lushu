@@ -197,7 +197,8 @@ function data_path(): string
  */
 function runtime_root_path(): string
 {
-    return dirname(runtime_path()) . DIRECTORY_SEPARATOR;
+//    return dirname(runtime_path()) . DIRECTORY_SEPARATOR;
+    return root_path() . 'runtime' . DIRECTORY_SEPARATOR;
 }
 
 /**
