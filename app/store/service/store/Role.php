@@ -75,9 +75,9 @@ class Role extends BaseService
      * @param $menu
      * @return array
      */
-    private static function getActionEntitySet($menu)
+    private static function getActionEntitySet($menu): array
     {
-        if (!isset($menu['actions']) || empty($menu['actions'])) {
+        if (empty($menu['actions'])) {
             return [];
         }
         $actionEntitySet = [];
