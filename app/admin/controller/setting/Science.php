@@ -84,15 +84,15 @@ class Science extends Controller
                 'name' => '文件上传最大值',
                 'key' => 'upload_max_filesize',
                 'value' => ini_get('upload_max_filesize'),
-                'status' => $this->compareBytes(ini_get('upload_max_filesize'), '10m') ? 'danger' : 'normal',
-                'remark' => '不能小于10MB；请修改php.ini中upload_max_filesize'
+                'status' => $this->compareBytes(ini_get('upload_max_filesize'), '30m') ? 'danger' : 'normal',
+                'remark' => '不能小于30MB；请修改php.ini中upload_max_filesize'
             ],
             [
                 'name' => 'POST数据最大值',
                 'key' => 'post_max_size',
                 'value' => ini_get('post_max_size'),
-                'status' => $this->compareBytes(ini_get('post_max_size'), '12m') ? 'danger' : 'normal',
-                'remark' => '不能小于12MB；请修改php.ini中post_max_size'
+                'status' => $this->compareBytes(ini_get('post_max_size'), '30m') ? 'danger' : 'normal',
+                'remark' => '不能小于30MB；请修改php.ini中post_max_size'
             ],
             [
                 'name' => '程序运行目录',
