@@ -144,7 +144,7 @@ class Select implements EventInterface
                 $this->_eventTimer[$timer_id] = array($func, (array)$args, $flag, $fd);
                 $select_timeout = ($run_time - \microtime(true)) * 1000000;
                 if( $this->_selectTimeout > $select_timeout ){ 
-                    $this->_selectTimeout = $select_timeout;   
+                    $this->_selectTimeout = (int) $select_timeout;
                 }  
                 return $timer_id;
         }
@@ -216,6 +216,7 @@ class Select implements EventInterface
             $next_run_time        = -$scheduler_data['priority'];
             $time_now             = \microtime(true);
             $this->_selectTimeout = ($next_run_time - $time_now) * 1000000;
+            $this->_selectTimeout = (int) (($next_run_time - $time_now) * 1000000);
             if ($this->_selectTimeout <= 0) {
                 $this->_scheduler->extract();
 
