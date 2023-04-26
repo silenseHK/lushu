@@ -13,25 +13,16 @@ return [
         'LogWrite' => [],
 
         // 定时任务：商城模块
-        'StoreTask' => [
-            \app\console\task\Store::class,
-        ],
+        'StoreTask' => [\app\timer\controller\Store::class],
 
         // 定时任务：商城订单
-        'Order' => [
-            \app\console\task\Order::class
-        ],
+        'Order' => [\app\timer\controller\Order::class],
 
         // 定时任务：用户优惠券
-        'UserCoupon' => [
-            \app\console\task\UserCoupon::class
-        ],
+        'UserCoupon' => [\app\timer\controller\UserCoupon::class],
 
         // 定时任务：会员等级
-        'UserGrade' => [
-            \app\console\task\UserGrade::class
-        ],
-
+        'UserGrade' => [\app\timer\controller\UserGrade::class],
     ],
 
 ];
