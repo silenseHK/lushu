@@ -295,4 +295,10 @@ abstract class BaseModel extends Model
         $model = new static;
         return array_merge($model->hidden, $hidden);
     }
+
+    //获取页码和每页条数
+    protected function getPageSize(): array
+    {
+        return [input('page/d',1),input('size/d',15)];
+    }
 }
