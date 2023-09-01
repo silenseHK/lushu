@@ -1,12 +1,13 @@
 <?php
 
-namespace app\store\model\line;
+namespace app\store\model;
 
-use app\common\model\line\Day as DayModel;
-use app\store\validate\line\DayValid;
+use app\common\library\wechat\WxQrcode;
+use app\common\model\PayOrder as PayOrderModel;
+use app\store\validate\PayOrderValid;
 use think\db\Query;
 
-class Day extends DayModel
+class PayOrder extends PayOrderModel
 {
 
     // 表单验证场景: 新增
@@ -22,58 +23,62 @@ class Day extends DayModel
     public function list(array $param)
     {
         return $this->getFilter($param)
-            ->order(['day_sort'=>'asc'])
-            ->append(['date_format'])
+            ->with(['line', 'user'])
+            ->order(['create_time'=>'desc'])
+            ->append(['arrive_time_format'])
             ->paginate(15);
     }
 
     //过滤查询
     protected function getFilter(array $param)
     {
-        $line_id = $param['line_id'] ?? 0;
         $keywords = $param['keywords'] ?? '';
         $time = $param['time'] ?? [];
+        $status = $param['status'] ?? 0;
         return $this
-            ->when($line_id>0,function(Query $query) use ($line_id){
-                $query->where('line_id',$line_id);
-            })
             ->when($keywords, function(Query $query)use($keywords){
-                $query->whereLike('title',"%{$keywords}%");
+                $lineModel = new Line();
+                $line_ids = $lineModel->whereLike('title',"%{$keywords}%")->column('line_id');
+                $query->whereIn('line_id', $line_ids);
             })
             ->when($time, function(Query $query)use($time){
                 $create_time = between_time($time);
                 $query->whereBetweenTime('create_time', $create_time['start_time'], $create_time['end_time']);
+            })
+            ->when($status > 0, function(Query $query) use ($status){
+                $query->where('status',$status);
             });
     }
 
-    //新增线路
-    public function add(array $data)
+    //添加支付订单
+    public function add($data)
     {
         $data = $this->filterForm($data);
         if (!$this->validateForm($data, self::FORM_SCENE_ADD)) {
             return false;
         }
         $data['store_id'] = self::$storeId;
+        $data['order_no'] = getNX();
         return $this->save($data);
     }
 
-    //编辑线路
+    //编辑支付订单
     public function edit(array $data)
     {
         $data = $this->filterForm($data);
         if (!$this->validateForm($data, self::FORM_SCENE_EDIT)) {
             return false;
         }
-        return $this->where('day_id',$data['day_id'])->save(array_merge($data, ['update_time'=>time()])) !== false;
+        return $this->where('line_id',$data['line_id'])->save(array_merge($data, ['update_time'=>time()])) !== false;
     }
 
-    //删除线路
+    //删除支付订单
     public function del($data)
     {
         if (!$this->validateForm($data, self::FORM_SCENE_DELETE)) {
             return false;
         }
-        return $this->where('day_id',$data['day_id'])->delete();
+        return $this->where('pay_id',$data['pay_id'])->save(['delete_time'=>time()]) !== false;
     }
 
     //过滤表单数据
@@ -90,29 +95,25 @@ class Day extends DayModel
      */
     private function validateForm(array $data, string $scene = self::FORM_SCENE_ADD)
     {
-        $validate = new DayValid();
+        $validate = new PayOrderValid();
+        $line_id = $data['line_id'] ?? 0;
+        if($line_id > 0){
+            $lineModel = new Line;
+            if(!$lineModel->where('line_id',$line_id)->find()){
+                $this->error = '线路不存在';
+                return false;
+            }
+        }
         switch($scene){
             case self::FORM_SCENE_ADD:
                 if(!$validate->scene($scene)->check($data)){
                     $this->error = $validate->getError();
                     return false;
                 }
-                ##查看这天日程是否存在
-                $check = $this->where('line_id', $data['line_id'])->where('day_sort', $data['day_sort'])->count();
-                if($check){
-                    $this->error = '第' . $data['day_sort'] . '日程已存在,请勿重复添加';
-                    return false;
-                }
                 break;
             case self::FORM_SCENE_EDIT:
                 if(!$validate->scene($scene)->check($data)){
                     $this->error = $validate->getError();
-                    return false;
-                }
-                ##查看这天日程是否存在
-                $check = $this->where('line_id', $data['line_id'])->where('day_sort', $data['day_sort'])->where('day_id','<>',$data['day_id'])->count();
-                if($check){
-                    $this->error = '第' . $data['day_sort'] . '日程已存在,请勿重复添加';
                     return false;
                 }
                 break;
@@ -124,6 +125,33 @@ class Day extends DayModel
                 break;
             default:
                 return false;
+        }
+        return true;
+    }
+
+    //获取小程序码
+    public function qrcode($param)
+    {
+        $pay_id = intval($param['pay_id'] ?? 0);
+        if(!$pay_id){
+            $this->error = '参数错误';
+            return false;
+        }
+        ##获取订单信息
+        $order = $this->find($pay_id);
+        if(!$order){
+            $this->error = '订单信息不存在';
+            return false;
+        }
+        if($order['qrcode']){
+            return ['qrcode' => $order['qrcode']];
+        }
+        if(!$order['qrcode']){  //生成二维码
+            $WxQrcode = new WxQrcode();
+            $qrcode = $WxQrcode->getQRCode('/pages/line/line?order_no='.$order['order_no'],'order');
+            $order->qrcode = $qrcode;
+            $order->save();
+            return $qrcode;
         }
         return true;
     }

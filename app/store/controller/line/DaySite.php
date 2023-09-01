@@ -1,66 +1,49 @@
 <?php
 
-namespace app\store\controller;
+namespace app\store\controller\line;
 
-use app\store\model\Line as LineModel;
+use app\store\controller\Controller;
+use app\store\model\line\DaySite as DaySiteModel;
 
-class Line extends Controller
+class DaySite extends Controller
 {
 
-    //线路列表
+    //日行程表
     public function list()
     {
-        $model = new LineModel;
+        $model = new DaySiteModel;
         $list = $model->list($this->request->param());
         return $this->renderSuccess(compact('list'));
     }
 
-    //添加线路
+    //添加行程
     public function add()
     {
-        $model = new LineModel;
+        $model = new DaySiteModel;
         if ($model->add($this->postData())) {
             return $this->renderSuccess('添加成功');
         }
         return $this->renderError($model->getError() ?: '添加失败');
     }
 
-    //修改线路
+    //修改行程
     public function edit()
     {
-        $model = new LineModel;
+        $model = new DaySiteModel;
         if ($model->edit($this->postData())) {
             return $this->renderSuccess('编辑成功');
         }
         return $this->renderError($model->getError() ?: '编辑失败');
     }
 
-    //删除线路
+    //删除行程
     public function delete()
     {
-        $model = new LineModel;
+        $model = new DaySiteModel;
         if ($model->del($this->postData())) {
             return $this->renderSuccess('删除成功');
         }
         return $this->renderError($model->getError() ?: '删除失败');
-    }
-
-    //简单线路列表
-    public function simpleList()
-    {
-        $model = new LineModel;
-        $list = $model->simpleList();
-        return $this->renderSuccess(compact('list'));
-    }
-
-    //生成线路二维码
-    public function qrcode()
-    {
-        $model = new LineModel;
-        if (!$qrcode = $model->qrcode($this->request->param())) {
-            return $this->renderError($model->getError() ?: '请求失败');
-        }
-        return $this->renderSuccess(compact('qrcode'));
     }
 
 }

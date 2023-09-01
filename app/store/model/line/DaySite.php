@@ -2,11 +2,12 @@
 
 namespace app\store\model\line;
 
-use app\common\model\line\Day as DayModel;
-use app\store\validate\line\DayValid;
+use app\common\model\line\DaySite as DaySiteModel;
+use app\store\model\Line;
+use app\store\validate\line\DaySiteValid;
 use think\db\Query;
 
-class Day extends DayModel
+class DaySite extends DaySiteModel
 {
 
     // 表单验证场景: 新增
@@ -22,8 +23,8 @@ class Day extends DayModel
     public function list(array $param)
     {
         return $this->getFilter($param)
-            ->order(['day_sort'=>'asc'])
-            ->append(['date_format'])
+            ->order(['site_sort'=>'asc'])
+            ->with(['img'])
             ->paginate(15);
     }
 
@@ -31,9 +32,13 @@ class Day extends DayModel
     protected function getFilter(array $param)
     {
         $line_id = $param['line_id'] ?? 0;
+        $day_id = $param['day_id'] ?? 0;
         $keywords = $param['keywords'] ?? '';
         $time = $param['time'] ?? [];
         return $this
+            ->when($day_id>0,function(Query $query) use ($day_id){
+                $query->where('day_id',$day_id);
+            })
             ->when($line_id>0,function(Query $query) use ($line_id){
                 $query->where('line_id',$line_id);
             })
@@ -46,7 +51,7 @@ class Day extends DayModel
             });
     }
 
-    //新增线路
+    //新增行程
     public function add(array $data)
     {
         $data = $this->filterForm($data);
@@ -57,28 +62,31 @@ class Day extends DayModel
         return $this->save($data);
     }
 
-    //编辑线路
+    //编辑行程
     public function edit(array $data)
     {
         $data = $this->filterForm($data);
         if (!$this->validateForm($data, self::FORM_SCENE_EDIT)) {
             return false;
         }
-        return $this->where('day_id',$data['day_id'])->save(array_merge($data, ['update_time'=>time()])) !== false;
+        return $this->where('site_id',$data['site_id'])->save(array_merge($data, ['update_time'=>time()])) !== false;
     }
 
-    //删除线路
+    //删除行程
     public function del($data)
     {
         if (!$this->validateForm($data, self::FORM_SCENE_DELETE)) {
             return false;
         }
-        return $this->where('day_id',$data['day_id'])->delete();
+        return $this->where('site_id',$data['site_id'])->delete();
     }
 
     //过滤表单数据
     private function filterForm(array $data)
     {
+        $day_id = $data['day_id'] ?? 0;
+        $dayModel = new Day();
+        $data['line_id'] = $dayModel->where('day_id',$day_id)->value('line_id');
         return $data;
     }
 
@@ -90,17 +98,17 @@ class Day extends DayModel
      */
     private function validateForm(array $data, string $scene = self::FORM_SCENE_ADD)
     {
-        $validate = new DayValid();
+        $validate = new DaySiteValid();
         switch($scene){
             case self::FORM_SCENE_ADD:
                 if(!$validate->scene($scene)->check($data)){
                     $this->error = $validate->getError();
                     return false;
                 }
-                ##查看这天日程是否存在
-                $check = $this->where('line_id', $data['line_id'])->where('day_sort', $data['day_sort'])->count();
+                ##查看这排序的行程是否存在
+                $check = $this->where('day_id', $data['day_id'])->where('site_sort', $data['site_sort'])->count();
                 if($check){
-                    $this->error = '第' . $data['day_sort'] . '日程已存在,请勿重复添加';
+                    $this->error = '第' . $data['site_sort'] . '个行程已存在,请勿重复添加';
                     return false;
                 }
                 break;
@@ -110,9 +118,9 @@ class Day extends DayModel
                     return false;
                 }
                 ##查看这天日程是否存在
-                $check = $this->where('line_id', $data['line_id'])->where('day_sort', $data['day_sort'])->where('day_id','<>',$data['day_id'])->count();
+                $check = $this->where('day_id', $data['day_id'])->where('site_sort', $data['site_sort'])->where('site_id','<>',$data['site_id'])->count();
                 if($check){
-                    $this->error = '第' . $data['day_sort'] . '日程已存在,请勿重复添加';
+                    $this->error = '第' . $data['site_sort'] . '个行程已存在,请勿重复添加';
                     return false;
                 }
                 break;

@@ -2,6 +2,7 @@
 
 namespace app\common\model;
 
+use app\common\model\line\Day;
 use cores\BaseModel;
 use think\model\concern\SoftDelete;
 
@@ -46,6 +47,12 @@ class Line extends BaseModel
     public function getShowTimeAttr($value, $data)
     {
         return [$data['show_time_start'], $data['show_time_end']];
+    }
+
+    //关联日程
+    public function day()
+    {
+        return $this->hasMany(Day::class,'line_id','line_id')->where('status',1)->append(['date_format'])->field('day_id, line_id, title, date, distance, time_consume, desc, pos_long, pos_lat, site_num, day_sort')->order('day_sort','asc');
     }
 
 }

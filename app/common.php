@@ -452,3 +452,9 @@ function getStoreId(): int
 {
     return 10001;
 }
+
+//获取订单号
+function getNX(string $NX='CZ'): string
+{
+    return $NX . date('YmdHis') . rand(10,99);
+}

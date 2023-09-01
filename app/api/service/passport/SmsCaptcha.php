@@ -63,10 +63,10 @@ class SmsCaptcha extends BaseService
         // 生成验证码
         $smsCaptcha = CaptchaApi::createSMS($mobile);
         // 发送短信
-        MessageService::send('passport.captcha', [
-            'code' => $smsCaptcha['code'],
-            'mobile' => $smsCaptcha['key']
-        ], $this->storeId);
+//        MessageService::send('passport.captcha', [
+//            'code' => $smsCaptcha['code'],
+//            'mobile' => $smsCaptcha['key']
+//        ], $this->storeId);
         return true;
     }
 

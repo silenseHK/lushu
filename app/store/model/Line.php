@@ -2,6 +2,7 @@
 
 namespace app\store\model;
 
+use app\common\library\wechat\WxQrcode;
 use app\common\model\Line as LineModel;
 use app\store\validate\LineValid;
 use think\db\Query;
@@ -25,6 +26,12 @@ class Line extends LineModel
             ->order(['create_time'=>'desc'])
             ->append(['show_time', 'show_time_format'])
             ->paginate(15);
+    }
+
+    //线路列表
+    public function simpleList()
+    {
+        return $this->where('status',1)->order('create_time','desc')->field('line_id, title')->select();
     }
 
     //过滤查询
@@ -113,6 +120,33 @@ class Line extends LineModel
                 break;
             default:
                 return false;
+        }
+        return true;
+    }
+
+    //获取线路二维码
+    public function qrcode(array $param)
+    {
+        $line_id = intval($param['line_id'] ?? 0);
+        if(!$line_id){
+            $this->error = '参数错误';
+            return false;
+        }
+        ##获取线路信息
+        $line = $this->find($line_id);
+        if(!$line){
+            $this->error = '线路信息不存在';
+            return false;
+        }
+        if($line['qrcode']){
+            return ['qrcode' => $line['qrcode']];
+        }
+        if(!$line['qrcode']){  //生成二维码
+            $WxQrcode = new WxQrcode();
+            $qrcode = $WxQrcode->getQRCode('/pages/line/line?line_id='.$line_id,'line');
+            $line->qrcode = $qrcode;
+            $line->save();
+            return $qrcode;
         }
         return true;
     }
