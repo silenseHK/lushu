@@ -18,7 +18,7 @@ class Line extends LineModel
             return false;
         }
         ##获取线路信息
-        $line = $this->where('line_id',$line_id)->with(['day'])->field('line_id, title, author_tips, spend_time, status, travel_notice, show_time_start, show_time_end')->find();
+        $line = $this->where('line_id',$line_id)->with(['day', 'banner'])->field('line_id, title, author_tips, spend_time, status, travel_notice, show_time_start, show_time_end, bannerId')->find();
         if(!$line){
             $this->error = '线路信息不存在';
             return false;
@@ -42,8 +42,9 @@ class Line extends LineModel
                 'day_id' => $day['day_id'],
             ];
         }
+        $day_num = count($line['day']);
         $per_distance = bcdiv($distance, count($line['day'])); //平均每日里程数
-        return compact('site_num','distance','per_distance','pos_arr','line');
+        return compact('site_num','distance','per_distance','pos_arr','line','day_num');
     }
 
 }

@@ -52,6 +52,7 @@ class PayOrder extends Controller
         if (!$qrcode = $model->qrcode($this->request->param())) {
             return $this->renderError($model->getError() ?: '请求失败');
         }
+        $qrcode = request()->domain() . '/' . trim($qrcode,'/');
         return $this->renderSuccess(compact('qrcode'));
     }
 

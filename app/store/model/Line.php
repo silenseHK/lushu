@@ -23,6 +23,7 @@ class Line extends LineModel
     public function list(array $param)
     {
         return $this->getFilter($param)
+            ->with(['banner'])
             ->order(['create_time'=>'desc'])
             ->append(['show_time', 'show_time_format'])
             ->paginate(15);
@@ -139,11 +140,11 @@ class Line extends LineModel
             return false;
         }
         if($line['qrcode']){
-            return ['qrcode' => $line['qrcode']];
+            return $line['qrcode'];
         }
         if(!$line['qrcode']){  //生成二维码
             $WxQrcode = new WxQrcode();
-            $qrcode = $WxQrcode->getQRCode('/pages/line/line?line_id='.$line_id,'line');
+            $qrcode = $WxQrcode->getQRCode('/pages/index/index?line_id='.$line_id,'line');
             $line->qrcode = $qrcode;
             $line->save();
             return $qrcode;

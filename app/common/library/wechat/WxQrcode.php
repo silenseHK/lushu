@@ -37,6 +37,9 @@ class WxQrcode extends WxBase
         $result = $this->post($url, json_encode($params));
 
         $filePath = public_path() . '/uploads/' . $scene . '/' . date('Ymd');
+        if(!is_dir(public_path() . '/uploads/' . $scene)){
+            mkdir(public_path() . '/uploads/' . $scene);
+        }
         if(!is_dir($filePath)){
             mkdir($filePath);
         }

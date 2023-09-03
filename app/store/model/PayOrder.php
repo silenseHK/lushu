@@ -144,11 +144,11 @@ class PayOrder extends PayOrderModel
             return false;
         }
         if($order['qrcode']){
-            return ['qrcode' => $order['qrcode']];
+            return $order['qrcode'];
         }
         if(!$order['qrcode']){  //生成二维码
             $WxQrcode = new WxQrcode();
-            $qrcode = $WxQrcode->getQRCode('/pages/line/line?order_no='.$order['order_no'],'order');
+            $qrcode = $WxQrcode->getQRCode('/pages/order/order?order_no='.$order['order_no'],'order');
             $order->qrcode = $qrcode;
             $order->save();
             return $qrcode;

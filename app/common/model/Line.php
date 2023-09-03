@@ -55,4 +55,10 @@ class Line extends BaseModel
         return $this->hasMany(Day::class,'line_id','line_id')->where('status',1)->append(['date_format'])->field('day_id, line_id, title, date, distance, time_consume, desc, pos_long, pos_lat, site_num, day_sort')->order('day_sort','asc');
     }
 
+    //关联图片
+    public function banner()
+    {
+        return $this->hasOne(UploadFile::class, 'file_id', 'bannerId');
+    }
+
 }

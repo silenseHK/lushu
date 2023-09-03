@@ -37,11 +37,15 @@ class LineValid extends Validate
             '<=:1',
             'integer',
         ],
+        'bannerId|顶部图片' => [
+            '>=:0',
+            'integer',
+        ],
     ];
 
     protected $scene = [
-        'add' => ['title', 'spend_time', 'show_time_start', 'show_time_end', 'status'],
-        'edit' => ['line_id', 'title', 'spend_time', 'show_time_start', 'show_time_end', 'status'],
+        'add' => ['title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId'],
+        'edit' => ['line_id', 'title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId'],
         'delete' => ['line_id'],
     ];
 
