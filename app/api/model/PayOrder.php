@@ -19,8 +19,8 @@ class PayOrder extends PayOrderModel
         if(!$order_no){
             return false;
         }
-        $order = $this->where('order_no',$order_no)->find();
-        if(!$this->check($order)){
+        $order = $this->where('order_no',$order_no)->with(['line'])->find();
+        if(!$this->check($order, $userId)){
             return false;
         }
         return compact('order');
@@ -36,7 +36,7 @@ class PayOrder extends PayOrderModel
             return false;
         }
         $order = $this->where('order_no',$order_no)->find();
-        if(!$this->check($order)){
+        if(!$this->check($order, $userId)){
             return false;
         }
         // 构建微信支付
@@ -63,7 +63,7 @@ class PayOrder extends PayOrderModel
     }
 
     //验证订单
-    public function check($order)
+    public function check($order, $user_id)
     {
         if(!$order){
             $this->error = '订单信息不存在';
@@ -71,6 +71,10 @@ class PayOrder extends PayOrderModel
         }
         if($order['status'] != 1){
             $this->error = '订单已经支付过了,无需重复支付。如有疑问请联系工作人员';
+            return false;
+        }
+        if($order['user_id'] && $order['user_id'] != $user_id){
+            $this->error = '订单已被其他用户拉起支付，请联系工作人员处理';
             return false;
         }
         return true;
