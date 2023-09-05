@@ -32,7 +32,7 @@ class Line extends Controller
         return $this->renderError($model->getError() ?: '获取信息失败');
     }
 
-    //日程想i去那个
+    //日程
     public function day()
     {
         // 获取列表数据

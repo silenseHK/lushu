@@ -4,10 +4,15 @@ namespace app\store\validate\line;
 
 use think\Validate;
 
-class DaySiteValid extends Validate
+class ShopValid extends Validate
 {
 
     protected $rule = [
+        'shop_id' => [
+            'require',
+            '>=:1',
+            'integer',
+        ],
         'site_id' => [
             'require',
             '>=:1',
@@ -23,22 +28,9 @@ class DaySiteValid extends Validate
             '>=:1',
             'integer',
         ],
-        'title|行程标题' => [
+        'title|店铺名' => [
             'require',
             'max:255',
-        ],
-        'schedule_time|行程时间' => [
-            'require',
-            'array',
-        ],
-        'type|行程类型' => [
-            'require',
-            'max:255',
-        ],
-        'cost_time|行程耗时' => [
-            'require',
-            '>=:0',
-            'integer',
         ],
         'imgId|图片' => [
             'require',
@@ -53,7 +45,7 @@ class DaySiteValid extends Validate
             'require',
             'max:255',
         ],
-        'site_sort|景点排序' => [
+        'sort|店铺排序' => [
             'require',
             '>=:1',
             'integer',
@@ -67,9 +59,9 @@ class DaySiteValid extends Validate
     ];
 
     protected $scene = [
-        'add' => ['day_id', 'title', 'schedule_time', 'type', 'cost_time', 'imgId', 'pos_long', 'pos_lat', 'site_sort', 'status'],
-        'edit' => ['site_id', 'day_id', 'title', 'schedule_time', 'type', 'cost_time', 'imgId', 'pos_long', 'pos_lat', 'site_sort', 'status'],
-        'delete' => ['site_id'],
+        'add' => ['site_id', 'title', 'imgId', 'pos_long', 'pos_lat', 'sort', 'status'],
+        'edit' => ['shop_id', 'site_id', 'title', 'imgId', 'pos_long', 'pos_lat', 'sort', 'status'],
+        'delete' => ['shop_id'],
     ];
 
 }

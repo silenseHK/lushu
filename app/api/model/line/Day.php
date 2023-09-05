@@ -16,7 +16,7 @@ class Day extends DayModel
             $this->error = '参数错误';
             return false;
         }
-        $menu = $this->where('line_id',$line_id)->where('status',1)->order('day_sort','asc')->field('day_id, title, day_line, day_sort')->select();
+        $menu = $this->where('line_id',$line_id)->where('status',1)->where('day_sort','>',0)->order('day_sort','asc')->field('day_id, title, day_line, day_sort, time_consume, distance')->select();
         return compact('menu');
     }
 
@@ -24,7 +24,7 @@ class Day extends DayModel
     public function detail($param)
     {
         // 当前用户信息
-        $user = UserService::getCurrentLoginUser(true);
+//        $user = UserService::getCurrentLoginUser(true);
         $day_id = $param['day_id'] ?? 0;
         if(!$day_id){
             $this->error = '参数错误';

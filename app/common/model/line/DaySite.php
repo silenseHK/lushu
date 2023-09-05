@@ -3,6 +3,7 @@
 namespace app\common\model\line;
 
 use cores\BaseModel;
+use think\model\relation\HasMany;
 use think\model\relation\HasOne;
 use app\common\model\UploadFile;
 
@@ -49,6 +50,15 @@ class DaySite extends BaseModel
     public function img(): HasOne
     {
         return $this->hasOne(UploadFile::class, 'file_id', 'imgId');
+    }
+
+    /**
+     * 关联店铺
+     * @return \think\model\relation\HasMany
+     */
+    public function shop(): HasMany
+    {
+        return $this->hasMany(Shop::class,'site_id','site_id')->order('sort','asc')->with(['img']);
     }
 
 }

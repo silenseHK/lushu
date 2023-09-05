@@ -31,7 +31,7 @@ class Line extends LineModel
         $site_num = 0; //路线景点数
         $distance = 0; //路线总里程
         $pos_arr = []; //坐标集合
-        foreach($line['day'] as $day){
+        foreach($line['day'] as $key => $day){
             $site_num = $day['site_num'] + $site_num;
             $distance = $day['distance'] + $distance;
             $distance = $day['distance'] + $distance;
@@ -41,6 +41,7 @@ class Line extends LineModel
                 'day_sort' => $day['day_sort'],
                 'day_id' => $day['day_id'],
             ];
+            if($day['day_sort'] == 0)unset($line['day'][$key]);
         }
         $day_num = count($line['day']);
         $per_distance = bcdiv($distance, count($line['day'])); //平均每日里程数

@@ -39,7 +39,7 @@ class DayValid extends Validate
         'day_sort|第几日' => [
             'require',
             'integer',
-            '>:0'
+            '>=:0'
         ],
         'day_line|今日线路' => [
             'require',

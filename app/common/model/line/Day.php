@@ -34,7 +34,7 @@ class Day extends BaseModel
     //关联行程
     public function site()
     {
-        return $this->hasMany(DaySite::class,'day_id','day_id')->where('status',1)->with(['img'])->order('site_sort')->field('site_id, day_id, title, schedule_time, type, cost_time, imgId, pos_long, pos_lat, tips, site_sort');
+        return $this->hasMany(DaySite::class,'day_id','day_id')->where('status',1)->with(['img', 'shop'])->order('site_sort')->field('site_id, day_id, title, schedule_time, type, cost_time, imgId, pos_long, pos_lat, tips, site_sort');
     }
 
     //关联线路

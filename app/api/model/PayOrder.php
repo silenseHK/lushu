@@ -15,11 +15,11 @@ class PayOrder extends PayOrderModel
     {
         // 当前用户信息
         $userId = UserService::getCurrentLoginUserId();
-        $pay_id = $this->filterParam($param);
-        if(!$pay_id){
+        $order_no = $this->filterParam($param);
+        if(!$order_no){
             return false;
         }
-        $order = $this->find($pay_id);
+        $order = $this->where('order_no',$order_no)->find();
         if(!$this->check($order)){
             return false;
         }
@@ -31,11 +31,11 @@ class PayOrder extends PayOrderModel
     {
         // 当前用户信息
         $userId = UserService::getCurrentLoginUserId();
-        $pay_id = $this->filterParam($param);
-        if(!$pay_id){
+        $order_no = $this->filterParam($param);
+        if(!$order_no){
             return false;
         }
-        $order = $this->find($pay_id);
+        $order = $this->where('order_no',$order_no)->find();
         if(!$this->check($order)){
             return false;
         }
@@ -54,12 +54,12 @@ class PayOrder extends PayOrderModel
     //检查参数
     public function filterParam($param)
     {
-        $pay_id = intval($param['pay_id'] ?? 0);
-        if(!$pay_id){
+        $order_no = $param['order_no'] ?? '';
+        if(!$order_no){
             $this->error = '参数错误';
             return false;
         }
-        return $pay_id;
+        return $order_no;
     }
 
     //验证订单
