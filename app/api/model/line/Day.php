@@ -24,7 +24,7 @@ class Day extends DayModel
     public function detail($param)
     {
         // 当前用户信息
-//        $user = UserService::getCurrentLoginUser(true);
+        $user = UserService::getCurrentLoginUser(true);
         $day_id = $param['day_id'] ?? 0;
         if(!$day_id){
             $this->error = '参数错误';
