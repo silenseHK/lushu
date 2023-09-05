@@ -44,9 +44,6 @@ class Line extends LineModel
             if($day['day_sort'] > 0){
                 $per_pos['title'] = "第{$day['day_sort']}天 " . $per_pos['title'];
             }
-            if($day['day_sort'] == 0){
-                $per_pos['title'] = "出发 " . $per_pos['title'];
-            }
             $pos_arr[] = $per_pos;
             if($day['day_sort'] == 0)unset($line['day'][$key]);
         }
