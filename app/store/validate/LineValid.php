@@ -41,11 +41,14 @@ class LineValid extends Validate
             '>=:0',
             'integer',
         ],
+        'alert_title|弹窗标题' => [
+            'max:30',
+        ],
     ];
 
     protected $scene = [
-        'add' => ['title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId'],
-        'edit' => ['line_id', 'title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId'],
+        'add' => ['title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId', 'alert_title'],
+        'edit' => ['line_id', 'title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId', 'alert_title'],
         'delete' => ['line_id'],
     ];
 

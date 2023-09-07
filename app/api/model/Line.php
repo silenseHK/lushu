@@ -18,7 +18,7 @@ class Line extends LineModel
             return false;
         }
         ##获取线路信息
-        $line = $this->where('line_id',$line_id)->with(['day', 'banner'])->field('line_id, title, author_tips, spend_time, status, travel_notice, show_time_start, show_time_end, bannerId')->find();
+        $line = $this->where('line_id',$line_id)->with(['day', 'banner'])->field('line_id, title, author_tips, spend_time, status, travel_notice, show_time_start, show_time_end, bannerId, alert_title')->find();
         if(!$line){
             $this->error = '线路信息不存在';
             return false;
