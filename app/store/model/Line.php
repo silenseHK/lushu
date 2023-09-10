@@ -99,6 +99,7 @@ class Line extends LineModel
             $this->error = '线路信息不存在';
             return false;
         }
+        $line = $line->toArray();
         ##日程信息
         $dayModel = new Day();
         $dayList = $dayModel->where('line_id', $line_id)->select()->toArray();
