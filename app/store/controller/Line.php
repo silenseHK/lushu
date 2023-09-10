@@ -64,4 +64,14 @@ class Line extends Controller
         return $this->renderSuccess(compact('qrcode'));
     }
 
+    //复制线路
+    public function copy()
+    {
+        $model = new LineModel;
+        if ($model->copy($this->postData())) {
+            return $this->renderSuccess('复制成功');
+        }
+        return $this->renderError($model->getError() ?: '复制失败');
+    }
+
 }

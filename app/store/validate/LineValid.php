@@ -50,6 +50,7 @@ class LineValid extends Validate
         'add' => ['title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId', 'alert_title'],
         'edit' => ['line_id', 'title', 'spend_time', 'show_time_start', 'show_time_end', 'status', 'bannerId', 'alert_title'],
         'delete' => ['line_id'],
+        'copy' => ['line_id'],
     ];
 
 }

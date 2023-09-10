@@ -4,6 +4,7 @@ namespace app\api\model;
 
 use app\api\service\User as UserService;
 use app\common\model\Line as LineModel;
+use think\db\Query;
 
 class Line extends LineModel
 {
@@ -18,13 +19,15 @@ class Line extends LineModel
             return false;
         }
         ##获取线路信息
-        $line = $this->where('line_id',$line_id)->with(['day', 'banner'])->field('line_id, title, author_tips, spend_time, status, travel_notice, show_time_start, show_time_end, bannerId, alert_title')->find();
+        $line = $this->where('line_id',$line_id)->with(['day'=>function(Query $query){
+            $query->with(['site']);
+        }, 'banner'])->field('line_id, title, author_tips, spend_time, status, travel_notice, show_time_start, show_time_end, bannerId, alert_title')->find();
         if(!$line){
             $this->error = '线路信息不存在';
             return false;
         }
         if($line['status'] != 1 || time() < $line['show_time_start'] || $line['show_time_end'] < time()){
-            $this->error = '线路信息暂未开放';
+            $this->error = '链接已失效，欢迎再来！如有疑问，请联系策划师。';
             return false;
         }
 
@@ -35,16 +38,20 @@ class Line extends LineModel
             $site_num = $day['site_num'] + $site_num;
             $distance = $day['distance'] + $distance;
             $distance = $day['distance'] + $distance;
-            $per_pos = [
-                'title' => $day['title'],
-                'pos' => [$day['pos_long'], $day['pos_lat']],
-                'day_sort' => $day['day_sort'],
-                'day_id' => $day['day_id'],
-            ];
-            if($day['day_sort'] > 0){
-                $per_pos['title'] = "第{$day['day_sort']}天 " . $per_pos['title'];
+            if($day['site']){
+                foreach($day['site'] as $site){
+                    $per_pos = [
+                        'title' => $site['title'],
+                        'pos' => [$site['pos_long'], $site['pos_lat']],
+                        'day_sort' => $day['day_sort'],
+                        'day_id' => $day['day_id'],
+                    ];
+//                    if($day['day_sort'] > 0){
+//                      $per_pos['title'] = "第{$day['day_sort']}天 " . $per_pos['title'];
+//                    }
+                    $pos_arr[] = $per_pos;
+                }
             }
-            $pos_arr[] = $per_pos;
             if($day['day_sort'] == 0)unset($line['day'][$key]);
         }
         $day_num = count($line['day']);
