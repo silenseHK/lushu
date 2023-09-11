@@ -109,6 +109,7 @@ class Line extends LineModel
             unset($line['line_id']);
             unset($line['create_time']);
             unset($line['update_time']);
+            unset($line['qrcode']);
             $res = $this->create($line);
             $new_line_id = $res['line_id'];
             $site_insert = [];
