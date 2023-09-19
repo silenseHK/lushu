@@ -40,13 +40,17 @@ class Day extends DayModel
             return false;
         }
         $pos_arr = [];
-        foreach($day['site'] as $site){
+        foreach($day['site'] as $key => $site){
             $pos_arr[] = [
                 'title' => $site['title'],
                 'pos' => [$site['pos_long'], $site['pos_lat']],
                 'site_sort' => $site['site_sort'],
                 'site_id' => $site['site_id'],
+                'status' => $site['status'],
             ];
+            if($site['status'] != 1){
+                unset($day['site'][$key]);
+            }
         }
         return compact('day','pos_arr');
     }

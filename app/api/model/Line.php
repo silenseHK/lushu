@@ -40,18 +40,22 @@ class Line extends LineModel
             $distance = $day['distance'] + $distance;
             $distance = $day['distance'] + $distance;
             if($day['site']){
-                foreach($day['site'] as $site){
+                foreach($day['site'] as $k => $site){
                     $per_pos = [
                         'title' => $site['title'],
                         'pos' => [$site['pos_long'], $site['pos_lat']],
                         'day_sort' => $day_sort,
                         'day_id' => $day['day_id'],
+                        'status' => $site['status'],
                     ];
 //                    if($day['day_sort'] > 0){
 //                      $per_pos['title'] = "第{$day['day_sort']}天 " . $per_pos['title'];
 //                    }
                     $pos_arr[] = $per_pos;
                     $day_sort++;
+                    if($site['status'] != 1){
+                        unset($line['day'][$key]['site'][$k]);
+                    }
                 }
             }
             if($day['day_sort'] == 0)unset($line['day'][$key]);
