@@ -26,6 +26,7 @@ class Line extends LineModel
             $this->error = '线路信息不存在';
             return false;
         }
+        $line = $line->toArray();
         if($line['status'] != 1 || time() < $line['show_time_start'] || $line['show_time_end'] < time()){
             $this->error = '链接已失效，欢迎再来！如有疑问，请联系策划师。';
             return false;
@@ -57,9 +58,11 @@ class Line extends LineModel
                         unset($line['day'][$key]['site'][$k]);
                     }
                 }
+                $day['site'] = array_values($day['site']);
             }
             if($day['day_sort'] == 0)unset($line['day'][$key]);
         }
+        $line['day'] = array_values($line['day']);
         $day_num = count($line['day']);
         $per_distance = bcdiv($distance, count($line['day'])); //平均每日里程数
         return compact('site_num','distance','per_distance','pos_arr','line','day_num');

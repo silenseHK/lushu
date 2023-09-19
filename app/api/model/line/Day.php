@@ -35,6 +35,7 @@ class Day extends DayModel
             $this->error = '路程信息不存在';
             return false;
         }
+        $day = $day->toArray();
         if($day['status'] != 1){
             $this->error = '路程信息已下线';
             return false;
@@ -52,6 +53,7 @@ class Day extends DayModel
                 unset($day['site'][$key]);
             }
         }
+        $day['site'] = array_values($day['site']);
         return compact('day','pos_arr');
     }
 
