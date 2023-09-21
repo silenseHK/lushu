@@ -39,7 +39,6 @@ class Line extends LineModel
         foreach($line['day'] as $key => $day){
             $site_num = $day['site_num'] + $site_num;
             $distance = $day['distance'] + $distance;
-            $distance = $day['distance'] + $distance;
             if($day['site']){
                 foreach($day['site'] as $k => $site){
                     $per_pos = [
