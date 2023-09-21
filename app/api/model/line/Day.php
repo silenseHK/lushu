@@ -55,10 +55,10 @@ class Day extends DayModel
                 'site_id' => $site['site_id'],
                 'status' => $site['status'],
             ];
+            $day['site'][$key]['cost_time'] = filterCostTime($site['cost_time']);
             if($site['status'] != 1){
                 unset($day['site'][$key]);
             }
-            $day['site'][$key]['cost_time'] = filterCostTime($site['cost_time']);
         }
         $day['site'] = array_values($day['site']);
         return compact('day','pos_arr');
