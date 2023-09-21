@@ -460,14 +460,22 @@ function getNX(string $NX='CZ'): string
 }
 
 //格式化耗时
-function filterCostTime(int $cost_time): string
+function filterCostTime(float $cost_time, int $type=1): string
 {
     $str = '';
-    $hour = bcdiv((string)$cost_time,"60");
-    if($hour > 0){
-        $str .= "{$hour}小时";
+    if($type == 1){
+        $hour = bcdiv((string)$cost_time,"60");
+        if($hour > 0){
+            $str .= "{$hour}小时";
+        }
+        $minute = $cost_time % 60;
+    }else{
+        $hour = intval($cost_time);
+        if($hour > 0){
+            $str .= "{$hour}小时";
+        }
+        $minute = bcmul(bcsub((string)$cost_time,(string)$hour,2),"60");
     }
-    $minute = $cost_time % 60;
     if($minute > 0){
         $str .= "{$minute}分钟";
     }

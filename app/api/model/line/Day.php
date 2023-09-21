@@ -11,7 +11,7 @@ class Day extends DayModel
     //格式化时间
     public function getTimeConsumeAttr($value)
     {
-        return filterCostTime($value);
+        return filterCostTime($value,2);
     }
 
     //日程菜单
