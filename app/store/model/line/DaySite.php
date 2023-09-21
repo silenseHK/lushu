@@ -69,6 +69,9 @@ class DaySite extends DaySiteModel
         if (!$this->validateForm($data, self::FORM_SCENE_EDIT)) {
             return false;
         }
+        if(isset($data['schedule_time'])){
+            $data['schedule_time'] = implode(',',$data['schedule_time']);
+        }
         return $this->where('site_id',$data['site_id'])->save(array_merge($data, ['update_time'=>time()])) !== false;
     }
 
