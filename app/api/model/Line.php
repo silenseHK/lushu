@@ -60,8 +60,8 @@ class Line extends LineModel
                 }
                 $day['site'] = array_values($day['site']);
             }
-            if($day['day_sort'] == 0)unset($line['day'][$key]);
             $line['day'][$key]['time_consume'] = filterCostTime($day['time_consume']);
+            if($day['day_sort'] == 0)unset($line['day'][$key]);
         }
         $line['day'] = array_values($line['day']);
         $day_num = count($line['day']);
