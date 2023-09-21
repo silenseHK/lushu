@@ -8,6 +8,12 @@ use app\common\model\line\Day as DayModel;
 class Day extends DayModel
 {
 
+    //格式化时间
+    public function getTimeConsumeAttr($value)
+    {
+        return filterCostTime($value);
+    }
+
     //日程菜单
     public function menu($param)
     {
@@ -52,6 +58,7 @@ class Day extends DayModel
             if($site['status'] != 1){
                 unset($day['site'][$key]);
             }
+            $day['site'][$key]['cost_time'] = filterCostTime($site['cost_time']);
         }
         $day['site'] = array_values($day['site']);
         return compact('day','pos_arr');

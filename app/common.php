@@ -458,3 +458,18 @@ function getNX(string $NX='CZ'): string
 {
     return $NX . date('YmdHis') . rand(10,99);
 }
+
+//格式化耗时
+function filterCostTime(int $cost_time): string
+{
+    $str = '';
+    $hour = bcdiv((string)$cost_time,"60");
+    if($hour > 0){
+        $str .= "{$hour}小时";
+    }
+    $minute = $cost_time % 60;
+    if($minute > 0){
+        $str .= "{$minute}分钟";
+    }
+    return $str;
+}
