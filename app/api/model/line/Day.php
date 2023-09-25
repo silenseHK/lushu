@@ -48,15 +48,17 @@ class Day extends DayModel
         }
         $pos_arr = [];
         foreach($day['site'] as $key => $site){
-            $pos_arr[] = [
-                'title' => $site['title'],
-                'pos' => [$site['pos_long'], $site['pos_lat']],
-                'site_sort' => $site['site_sort'],
-                'site_id' => $site['site_id'],
-                'status' => $site['status'],
-            ];
-            $day['site'][$key]['cost_time'] = filterCostTime($site['cost_time']);
-            if($site['status'] != 1){
+            if(in_array($site['show_type'],[1,2])){
+                $pos_arr[] = [
+                    'title' => $site['title'],
+                    'pos' => [$site['pos_long'], $site['pos_lat']],
+                    'site_sort' => $site['site_sort'],
+                    'site_id' => $site['site_id'],
+                    'status' => $site['status'],
+                ];
+                $day['site'][$key]['cost_time'] = filterCostTime($site['cost_time']);
+            }
+            if(!in_array($site['show_type'],[1,3]) || $site['status'] != 1){
                 unset($day['site'][$key]);
             }
         }

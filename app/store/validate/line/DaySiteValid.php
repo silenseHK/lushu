@@ -64,11 +64,17 @@ class DaySiteValid extends Validate
             '<=:1',
             'integer',
         ],
+        'show_type|展示方式' => [
+            'require',
+            '>=:1',
+            '<=:3',
+            'integer',
+        ],
     ];
 
     protected $scene = [
-        'add' => ['day_id', 'title', 'schedule_time', 'type', 'cost_time', 'imgId', 'pos_long', 'pos_lat', 'site_sort', 'status'],
-        'edit' => ['site_id', 'day_id', 'title', 'schedule_time', 'type', 'cost_time', 'imgId', 'pos_long', 'pos_lat', 'site_sort', 'status'],
+        'add' => ['day_id', 'title', 'schedule_time', 'type', 'cost_time', 'imgId', 'pos_long', 'pos_lat', 'site_sort', 'status', 'show_type'],
+        'edit' => ['site_id', 'day_id', 'title', 'schedule_time', 'type', 'cost_time', 'imgId', 'pos_long', 'pos_lat', 'site_sort', 'status', 'show_type'],
         'delete' => ['site_id'],
     ];
 
